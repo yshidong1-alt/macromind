@@ -1,0 +1,33 @@
+name: Verify MacroMind
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - run: python -m unittest discover -s tests -v
+      - name: Build Docker image
+        run: docker build -t macromind:test .
+      - name: Check Docker health and non-root server
+        run: |
+          docker run -d --name macromind-test -p 127.0.0.1:10000:10000 -e APP_ENV=production -e APP_PASSWORD=ci-only-disposable-access-password -e SESSION_SECRET=ci-only-disposable-session-secret-32-characters -e ENABLE_SCHEDULER=false -v macromind-ci-data:/var/data macromind:test
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent http://127.0.0.1:10000/api/health; then break; fi
+            sleep 2
+          done
+          curl --fail http://127.0.0.1:10000/api/health
+          test "$(docker exec macromind-test python -c "print(open('/proc/1/status').read().split('Uid:')[1].split()[0])")" = "10001"
+          docker restart macromind-test
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent http://127.0.0.1:10000/api/health; then break; fi
+            sleep 2
+          done
+          curl --fail http://127.0.0.1:10000/api/health

@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: macromind
+    runtime: docker
+    plan: 0.5c-512mb
+    numInstances: 1
+    healthCheckPath: /api/health
+    dockerfilePath: ./Dockerfile
+    autoDeployTrigger: commit
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_PASSWORD
+        sync: false
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: DB_PATH
+        value: /var/data/macromind.sqlite3
+      - key: ENABLE_SCHEDULER
+        value: "true"
+    disk:
+      name: macromind-data
+      mountPath: /var/data
+      sizeGB: 1
