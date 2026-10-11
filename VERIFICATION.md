@@ -16,7 +16,7 @@
 | 供应商成功、失败、旧值、未来日期、当前日线 | 使用明确的测试 fixture 验证，不是真实行情验收 |
 | 浏览器表单 | 三问填写、保存成功、原始内容锁定、复盘日期展示通过 |
 | 页面视觉 | 检查桌面及 390 px 手机宽度 |
-| Docker 镜像 | 本机无 Docker，尚未在本机构建；仓库提供 CI 构建验收 |
+| Docker 镜像 | GitHub Actions 云端构建通过；容器健康、非 root 服务进程、容器重启健康检查通过；运行 38135054958 |
 | Render 公网部署 | 未完成；需要用户登录 Render |
 | GitHub 提交 | 已通过 GitHub Desktop 推送 main；初始提交 87822911a69a267d02851bc98424f8c49bea46bc，远程 render.yaml 已读取核对 |
 | 真实 FRED / Twelve Data 数据 | 未验证；需要在服务端设置用户的密钥及授权 symbol |
