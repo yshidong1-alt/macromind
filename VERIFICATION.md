@@ -18,7 +18,7 @@
 | 页面视觉 | 检查桌面及 390 px 手机宽度 |
 | Docker 镜像 | 本机无 Docker，尚未在本机构建；仓库提供 CI 构建验收 |
 | Render 公网部署 | 未完成；需要用户登录 Render |
-| GitHub 提交 | 未完成；连接器写入 README 时返回 403 Resource not accessible by integration，网页端也未登录；仓库仍为空 |
+| GitHub 提交 | 已通过 GitHub Desktop 推送 main；初始提交 87822911a69a267d02851bc98424f8c49bea46bc，远程 render.yaml 已读取核对 |
 | 真实 FRED / Twelve Data 数据 | 未验证；需要在服务端设置用户的密钥及授权 symbol |
 
 执行命令：`python -m unittest discover -s tests -v`。
